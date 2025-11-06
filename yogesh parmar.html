@@ -1,0 +1,45 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C Language Practice Problems - By Yogesh </title>
+<link rel="stylesheet" href="prt.css">
+</head>
+<body>
+    <div class="container">
+        <div class="creator-badge">
+            <h1>Created by Yogesh Parmar </h1>
+            <h2>For c Language problem solving</h2>
+        </div>
+
+        
+        <div id="topics-view">
+            <div class="header">
+                <h2>C Language Practice Problems</h2>
+                <p>Select a topic to view questions</p>
+            </div>
+            <div class="topics-grid" id="topics-container"></div>
+        </div>
+
+        
+        <div id="questions-view" class="hidden">
+            <button class="back-button" onclick="showTopics()">← Back to Topics</button>
+            <div class="header">
+                <h2 id="topic-title"></h2>
+            </div>
+            <ul class="questions-list" id="questions-container"></ul>
+        </div>
+
+        
+        <div id="answer-view" class="hidden">
+            <button class="back-button" onclick="showQuestions()">← Back to Questions</button>
+            <div class="answer-view">
+                <h3>Question:</h3>
+                <div class="question-text" id="question-display"></div>
+                <h3>Answer: </h3>
+                <div id="answer-display"></div>
+            </div>
+        </div>
+    </div>
+<script src="prt.js"></script>    </body>
+</html>
