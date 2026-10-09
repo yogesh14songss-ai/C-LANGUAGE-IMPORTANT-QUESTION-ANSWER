@@ -1,4 +1,4 @@
-      * {
+    * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
@@ -190,3 +190,161 @@
                 grid-template-columns: 1fr;
             }
         }
+
+
+
+/* VS Code-inspired console preview */
+.terminal-window {
+    overflow: hidden;
+    border: 1px solid #30363d;
+    border-radius: 12px;
+    background: #0d1117;
+    box-shadow: 0 14px 36px rgba(0, 0, 0, 0.28);
+    margin: 0 0 22px;
+    color: #c9d1d9;
+    font-family: 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+}
+
+.terminal-titlebar {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 14px;
+    background: #161b22;
+    border-bottom: 1px solid #30363d;
+}
+
+.terminal-window-controls {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    flex-shrink: 0;
+}
+
+.terminal-control {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.control-close { background: #ff5f57; }
+.control-minimize { background: #febc2e; }
+.control-maximize { background: #28c840; }
+
+.terminal-tab {
+    min-height: 48px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 0 5px;
+    color: #e6edf3;
+    border-bottom: 2px solid #58a6ff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.1px;
+}
+
+.terminal-tab-icon {
+    color: #58a6ff;
+    font-size: 14px;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.terminal-toolbar {
+    margin-left: auto;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.terminal-output-label {
+    color: #8b949e;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 1.3px;
+}
+
+.copy-output-btn {
+    padding: 6px 10px;
+    background: #21262d;
+    border: 1px solid #3d444d;
+    border-radius: 6px;
+    color: #c9d1d9;
+    font: 600 11px 'Segoe UI', sans-serif;
+    cursor: pointer;
+    transition: background .18s ease, border-color .18s ease, color .18s ease;
+}
+
+.copy-output-btn:hover {
+    background: #30363d;
+    border-color: #58a6ff;
+    color: #ffffff;
+}
+
+.copy-output-btn.copied {
+    color: #3fb950;
+    border-color: #238636;
+}
+
+.output-text {
+    display: block;
+    min-height: 112px;
+    max-height: 420px;
+    overflow: auto;
+    margin: 0;
+    padding: 22px 24px 26px;
+    background: #0d1117;
+    color: #d1f7c4;
+    font: 14px/1.8 'Cascadia Code', 'Consolas', 'Courier New', monospace;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    tab-size: 4;
+}
+
+.terminal-statusbar {
+    min-height: 27px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 0 12px;
+    background: #161b22;
+    border-top: 1px solid #30363d;
+    color: #8b949e;
+    font: 10px/1.3 'Segoe UI', sans-serif;
+    letter-spacing: .5px;
+}
+
+.terminal-status-left {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: #8b949e;
+    font-weight: 700;
+}
+
+.status-indicator {
+    width: 7px;
+    height: 7px;
+    display: inline-block;
+    border-radius: 50%;
+    background: #3fb950;
+    box-shadow: 0 0 7px rgba(63, 185, 80, .45);
+}
+
+.terminal-status-right {
+    color: #6e7681;
+    white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+    .terminal-titlebar { gap: 10px; padding: 0 10px; }
+    .terminal-window-controls { gap: 5px; }
+    .terminal-control { width: 8px; height: 8px; }
+    .terminal-output-label { display: none; }
+    .output-text { font-size: 12px; padding: 17px 14px 20px; }
+    .terminal-statusbar { padding: 0 8px; font-size: 9px; }
+}
