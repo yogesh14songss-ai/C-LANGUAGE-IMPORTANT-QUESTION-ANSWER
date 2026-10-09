@@ -1,4 +1,4 @@
-     const topics = [
+ const topics = [
             {
                 name: "BASIC INPUT OUTPUT",
                 questions: [
@@ -476,7 +476,35 @@ int main() {
 
 `},
                  {   q:"Enter current date of DOB of user and find out difference ?",
- a:`not defined sorry`},            { q:      "Write a program to calculate area and perimeter of rectangle ?",
+ a:`#include <stdio.h>
+#include <time.h>
+
+int main(void) {
+    int birthDay, birthMonth, birthYear;
+    int todayDay, todayMonth, todayYear;
+    int years, months, days;
+
+    printf("Enter DOB (dd mm yyyy): ");
+    scanf("%d%d%d", &birthDay, &birthMonth, &birthYear);
+    printf("Enter current date (dd mm yyyy): ");
+    scanf("%d%d%d", &todayDay, &todayMonth, &todayYear);
+
+    years = todayYear - birthYear;
+    months = todayMonth - birthMonth;
+    days = todayDay - birthDay;
+
+    if (days < 0) {
+        months--;
+        days += 30;
+    }
+    if (months < 0) {
+        years--;
+        months += 12;
+    }
+
+    printf("Difference: %d years, %d months, %d days\\n", years, months, days);
+    return 0;
+}`},            { q:      "Write a program to calculate area and perimeter of rectangle ?",
                a:`
 #include <stdio.h>
 int main() {
@@ -543,7 +571,23 @@ int main() {
     printf("%d\n", sum(arr, 10));
     return 0;
 }
-`}, "Write a program to return an array from function ?",
+`},
+                    {q:"Write a program to return an array from function ?",
+                     a:`#include <stdio.h>
+
+int *getArray(void) {
+    static int values[5] = {10, 20, 30, 40, 50};
+    return values;
+}
+
+int main(void) {
+    int i;
+    int *arr = getArray();
+    for (i = 0; i < 5; i++)
+        printf("%d ", arr[i]);
+    printf("\\n");
+    return 0;
+}`},
                     {q:"Making following program using local and global variable ? Factorial , Reverse , Palindrome , Prime numbers, Armstrong , Fibonacci",
                     a:`#include <stdio.h>
 int n;
@@ -585,7 +629,24 @@ int main() {
     printf("%d %d\n", a, b);
     return 0;
 }
-`}, "Swap numbers using Call by function ?",
+`},
+                    {q:"Swap numbers using Call by function ?",
+                     a:`#include <stdio.h>
+
+void swap(int x, int y) {
+    int temp = x;
+    x = y;
+    y = temp;
+    printf("Inside function: %d %d\n", x, y);
+}
+
+int main(void) {
+    int a, b;
+    scanf("%d%d", &a, &b);
+    swap(a, b);
+    printf("In main: %d %d\n", a, b);
+    return 0;
+}`},
                    {q: "Make function for find out power of number, enter the number and power from user ?",
                     a:`#include <stdio.h>
 
@@ -647,7 +708,36 @@ for(j=i-1;j>=0;j--)
 }
 }`},
                     {q:"Enter a number from the user and check that the number is divisible by any prime number or not ?",
-                   a:``},
+                   a:`#include <stdio.h>
+
+int main(void) {
+    int n, i, divisible = 0;
+    scanf("%d", &n);
+
+    if (n < 2) {
+        printf("No prime divisor found\n");
+        return 0;
+    }
+
+    for (i = 2; i <= n; i++) {
+        int isPrime = 1, j;
+        for (j = 2; j * j <= i; j++) {
+            if (i % j == 0) {
+                isPrime = 0;
+                break;
+            }
+        }
+        if (isPrime && n % i == 0) {
+            printf("Divisible by prime number %d\n", i);
+            divisible = 1;
+            break;
+        }
+    }
+
+    if (!divisible)
+        printf("Not divisible by any prime number\n");
+    return 0;
+}`},
                    {q: "Enter a number from the user and check it is a prime number or not ?",
                    a:`#include <stdio.h>
 void main(){
@@ -1906,15 +1996,218 @@ function openAnswer(j) {
   let question = topic.questions[j];
 
   let qText = question.q || question;
-  let aText = question.a || "(Write your answer here...)";
+  let aText = question.a || "Answer pending.";
+  let outputText = question.output || makeSampleOutput(qText, aText);
 
   document.getElementById("question-display").textContent = qText;
-  document.getElementById("answer-display").innerHTML = "<div class='answer-text'>" + escapeCode(aText) + "</div>";
-
+  document.getElementById("answer-display").innerHTML =
+    "<div class='answer-text'>" + escapeCode(aText) + "</div>";
+  document.getElementById("output-display").textContent = outputText;
+  const copyButton = document.getElementById("copy-output-btn");
+  if (copyButton) {
+    copyButton.textContent = "Copy";
+    copyButton.classList.remove("copied");
+  }
 
   document.getElementById("topics-view").classList.add("hidden");
   document.getElementById("questions-view").classList.add("hidden");
   document.getElementById("answer-view").classList.remove("hidden");
+}
+
+function makeSampleOutput(question, answer) {
+  const q = String(question || "").toLowerCase();
+  const code = String(answer || "");
+  const sample = (text) => text;
+
+  // These are output-only previews: illustrative values are never printed as input.
+  // Each preview is selected to match the question and the visible C answer.
+  const outputCases = [
+    [/today i made my first c program|first c program/, "Today I made my first C Program"],
+    [/single quote/, "'"],
+    [/blink 5 times|blink 5 time/, "yogesh"],
+    [/center of the first line/, "                YOGESH PARMAR"],
+    [/center of the page/, "\n\n\n\n\n\n\n\n\n\n                                       Yogesh"],
+    [/display this output|hello,welcome to c/, "Hello, welcome to C"],
+    [/password.*\*\*\*\*\*\*/, "******"],
+    [/two character.*ascii|two characters.*ascii/, "65\n66"],
+    [/print all ascii character/, "! \" # $ % & ' ( ) * + , - . / 0 1 2 3 4 5 6 7 8 9\n: ; < = > ? @ A B C D E F G H I J K L M N O P Q R S T U V W X Y Z\n[ \\ ] ^ _ ` a b c d e f g h i j k l m n o p q r s t u v w x y z { | } ~"],
+    [/positive or negative or 0|positive or negative/, "the number is positive"],
+    [/odd or even/, "the num is even"],
+    [/1 digit or 2 digit or 3 digit|digit of the number/, "3 digit"],
+    [/grade|marks.*grade/, "B grade"],
+    [/decimal number or not/, "decimal"],
+    [/convert into positive|convert into negative/, "-25"],
+    [/check that it is an alphabet|character.*alphabet|should be alphabet/, "alphabet"],
+    [/square the number|increment the number 20 times/, "25"],
+    [/negative or positive and find out/, "positive"],
+    [/two number.*greater|two numbers.*greater/, "20"],
+    [/divisible by 4/, "divisible by 4"],
+    [/four characters.*equal/, "all equal"],
+    [/three numbers.*greater|three numbers from users.*greater/, "30"],
+    [/month.*30 days|month 31 days/, "April, June, September, November"],
+    [/one digit number.*words/, "seven"],
+    [/two characters.*same or not/, "difference = -1"],
+    [/two digit number.*word/, "five zero"],
+    [/upper case, lower case, special characters or numbers/, "uppercase"],
+    [/leap year/, "leap year"],
+    [/valid date/, "valid"],
+    [/current date of dob|date of dob/, "Difference: 20 years, 0 months, 0 days"],
+    [/area and perimeter of rectangle/, "area = 15\nperimeter = 16"],
+    [/enter 2 number.*subtract.*multiply.*divide|again enter 2 number/, "15\n5\n15\n50\n5\n50\n2\n2\n15"],
+    [/enter 10 number.*add/, "55"],
+    [/return an array/, "10 20 30 40 50"],
+    [/local and global variable.*factorial/, "120\n120"],
+    [/call by address/, "20 10"],
+    [/call by function/, "Inside function: 20 10\nIn main: 10 20"],
+    [/power of number|base and power/, "32"],
+    [/cube/, "27"],
+    [/binary/, "binary 1010"],
+    [/divisible by any prime number/, "Divisible by prime number 2"],
+    [/prime number or not/, "prime"],
+    [/all digit.*separate line/, "1\n2\n3\n4\n5\n6"],
+    [/name 1 lakh times/, "Yogesh\nYogesh\nYogesh\n..."],
+    [/series 1 to 1 lakh/, "1\n2\n3\n4\n5\n...\n100000"],
+    [/series from 1 to that number/, "1\n2\n3\n4\n5"],
+    [/print that number 100 time/, "7\n7\n7\n..."],
+    [/odd number between 1 to 100/, "1 3 5 7 9 11 13 15 17 19 ... 95 97 99"],
+    [/table of 4/, Array.from({length:20}, (_,i) => `4*${i+1}=${4*(i+1)}`).join("\n")],
+    [/reverse the number/, "4321"],
+    [/addition operation.*subtract.*multiply.*divide.*modulo/, "15\n5\n50\n2\n0"],
+    [/number.*palindrome|check numbers.*palindrome/, "palindrome"],
+    [/first digit of number/, "4"],
+    [/print total from 0 to that number/, "55"],
+    [/factorial/, "120"],
+    [/print range from first number to second number/, "1\n2\n3\n4\n5"],
+    [/password from user maximum 20 digits/, "1\n2\n3\n4\n5\n...\n100"],
+    [/counting 1 to 100 with one second delay/, "0 1 1 2 3 5 8 13 21 34 55 89"],
+    [/fibonacci series/, "0 1 1 2 3 5 8 13 21 34 55 89"],
+    [/armstrong/, "armstrong"],
+    [/pattern on the screen/, "11111\n11111\n11111"],
+    [/four number.*matrix/, "1 2\n3 4"],
+    [/transpose/, "1 4\n2 5\n3 6"],
+    [/matrix.*add/, "6 8\n10 12"],
+    [/matrix.*subtract/, "-4 -4\n-4 -4"],
+    [/matrix.*multiply/, "19 22\n43 50"],
+    [/pre-increment/, "6"],
+    [/post-increment/, "5\n6"],
+    [/pre-decrement/, "4"],
+    [/post-decrement/, "5\n4"],
+    [/last digit/, "7"],
+    [/right hand side of the decimal point/, "0.500000"],
+    [/round of the number/, "13"],
+    [/lower case character.*upper case/, "A"],
+    [/calculate average/, "80"],
+    [/simple interest/, "100.00"],
+    [/array.*display all the value/, "10 20 30 40 50"],
+    [/array.*reverse order/, "50 40 30 20 10"],
+    [/copy the array into second array/, "10 20 30 40 50"],
+    [/copy it into another array in reverse order/, "50 40 30 20 10"],
+    [/array.*number which is even/, "2 4"],
+    [/array.*number which is positive/, "1 3 5"],
+    [/square all the values of array/, "1 4 9 16 25"],
+    [/5 values.*odd number/, "1 3 5"],
+    [/5 values.*add all values/, "15"],
+    [/search this value in array/, "found"],
+    [/sort in ascending order/, "1 2 3 4 5"],
+    [/maximum values of array/, "9"],
+    [/minimum values of array/, "1"],
+    [/convert in uppercase/, "Uppercase: HELLO WORLD"],
+    [/convert into lowercase/, "Lowercase: hello world"],
+    [/sentence case/, "Sentence case: Hello world from c"],
+    [/title case/, "Title case: Hello World From C"],
+    [/toggle case/, "Toggle case: hELLO wORLD"],
+    [/final length of the string/, "Length: 11"],
+    [/compare those string/, "Strings are equal"],
+    [/concatenate the string/, "Concatenated string: HelloWorld"],
+    [/copy that string into another string/, "Copied string: Hello World"],
+    [/print first character of string|print second character of string/, "Character: e"],
+    [/each character in new line/, "H\ne\nl\nl\no"],
+    [/copy reverse order into another string/, "Reversed copy: olleH"],
+    [/difference each character/, "Difference at 0 = -1\nDifference at 1 = 0\nDifference at 2 = 0"],
+    [/character.*exist or not/, "Character exists"],
+    [/bound number/, "Character found at index 1"],
+    [/count all vowels/, "Total vowels: 5"],
+    [/character on that bound/, "Character: e"],
+    [/string palindrome|palindrome string/, "Palindrome string"],
+    [/roll no.*marks of 5 subjects/, "Roll No: 101\nName: Yogesh\nClass: BCA\nTotal Marks: 450"],
+    [/employee.*print only name/, "Employee Names:\n1. Yogesh\n2. Aman\n3. Rahul\n..."],
+    [/employee.*name character with emp.id/, "ID    Name Characters\n1     Y o g e s h\n2     A m a n\n..."],
+    [/employee.*print details in tabular form/, "ID    Name        Designation\n1     Yogesh      Developer\n2     Aman        Designer\n..."],
+    [/student details.*ascending order/, "Roll    Name        Fee       DOB\n101     Aman        12000.00  01-01-2005\n102     Yogesh      15000.00  15-05-2005"]
+  ];
+
+  for (const [pattern, output] of outputCases) {
+    if (pattern.test(q)) return sample(output);
+  }
+
+  if (!code.trim() || /answer pending|not defined sorry/i.test(code)) {
+    return "No program output available yet.";
+  }
+
+  // Fallback: read literal console text from printf/puts calls in the answer itself.
+  // Input prompts are intentionally omitted, and formatting placeholders receive neutral
+  // illustrative values so the preview stays output-only.
+  const captured = [];
+  const printfPattern = /printf\s*\(\s*"((?:\\.|[^"\\])*)"/g;
+  let match;
+  while ((match = printfPattern.exec(code)) !== null) {
+    let value = match[1]
+      .replace(/\\n/g, "\n")
+      .replace(/\\t/g, "\t")
+      .replace(/\\r/g, "\r")
+      .replace(/\\"/g, '"')
+      .replace(/\\'/g, "'")
+      .replace(/\\\\/g, "\\");
+    if (/^\s*(enter|input|please enter|how many|type|provide)\b/i.test(value)) continue;
+    value = value
+      .replace(/%[-+ #0]*\d*(?:\.\d+)?[diuoxX]/g, "10")
+      .replace(/%[-+ #0]*\d*(?:\.\d+)?[fFeEgG]/g, "10.00")
+      .replace(/%[-+ #0]*\d*c/g, "A")
+      .replace(/%[-+ #0]*\d*s/g, "Yogesh")
+      .replace(/%p/g, "0x0");
+    if (value) captured.push(value);
+  }
+
+  const putsPattern = /puts\s*\(\s*"((?:\\.|[^"\\])*)"\s*\)/g;
+  while ((match = putsPattern.exec(code)) !== null) {
+    captured.push(match[1].replace(/\\n/g, "\n").replace(/\\t/g, "\t").replace(/\\"/g, '"'));
+  }
+
+  if (captured.length) return captured.join("");
+  return "No fixed console output can be previewed for this program.";
+}
+
+
+function copyOutputToClipboard() {
+  const outputElement = document.getElementById("output-display");
+  const button = document.getElementById("copy-output-btn");
+  if (!outputElement || !button) return;
+
+  const output = outputElement.textContent || "";
+  const showCopied = () => {
+    button.textContent = "Copied";
+    button.classList.add("copied");
+  };
+
+  if (navigator.clipboard && window.isSecureContext) {
+    navigator.clipboard.writeText(output).then(showCopied).catch(() => fallbackCopy(output, showCopied));
+  } else {
+    fallbackCopy(output, showCopied);
+  }
+}
+
+function fallbackCopy(text, onSuccess) {
+  const temporary = document.createElement("textarea");
+  temporary.value = text;
+  temporary.setAttribute("readonly", "");
+  temporary.style.position = "fixed";
+  temporary.style.opacity = "0";
+  document.body.appendChild(temporary);
+  temporary.select();
+  let copied = false;
+  try { copied = document.execCommand("copy"); } catch (error) { copied = false; }
+  temporary.remove();
+  if (copied) onSuccess();
 }
 
 
@@ -1936,5 +2229,3 @@ function showQuestions() {
 }
 
 initApp();
-
-
